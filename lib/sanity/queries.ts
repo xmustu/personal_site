@@ -77,14 +77,14 @@ const projectBySlugQuery = groq`
 `;
 
 const postSlugsQuery = groq`
-  *[_type == "post" && defined(slug.current)]{
+  *[_type == "post" && defined(slug.current)] | order(_updatedAt desc){
     "slug": slug.current,
     _updatedAt
   }
 `;
 
 const projectSlugsQuery = groq`
-  *[_type == "project" && defined(slug.current)]{
+  *[_type == "project" && defined(slug.current)] | order(_updatedAt desc){
     "slug": slug.current,
     _updatedAt
   }
@@ -108,10 +108,12 @@ export async function getProjectBySlug(
   return sanityClient.fetch<ProjectDetail | null>(projectBySlugQuery, { slug });
 }
 
-export async function getPostSlugs(): Promise<SlugWithUpdatedAt[]> {
-  return sanityClient.fetch<SlugWithUpdatedAt[]>(postSlugsQuery);
+export async function getPostSlugs(limit?: number): Promise<SlugWithUpdatedAt[]> {
+  const slugs = await sanityClient.fetch<SlugWithUpdatedAt[]>(postSlugsQuery);
+  return typeof limit === "number" ? slugs.slice(0, limit) : slugs;
 }
 
-export async function getProjectSlugs(): Promise<SlugWithUpdatedAt[]> {
-  return sanityClient.fetch<SlugWithUpdatedAt[]>(projectSlugsQuery);
+export async function getProjectSlugs(limit?: number): Promise<SlugWithUpdatedAt[]> {
+  const slugs = await sanityClient.fetch<SlugWithUpdatedAt[]>(projectSlugsQuery);
+  return typeof limit === "number" ? slugs.slice(0, limit) : slugs;
 }

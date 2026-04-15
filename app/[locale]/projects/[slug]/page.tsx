@@ -2,13 +2,33 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
-import { getProjectBySlug } from "@/lib/sanity/queries";
+import { getProjectBySlug, getProjectSlugs } from "@/lib/sanity/queries";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
+
+const PRE_RENDER_DETAIL_LIMIT = 20;
+
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  if (!isSanityConfigured) {
+    return [];
+  }
+
+  try {
+    const slugs = await getProjectSlugs(PRE_RENDER_DETAIL_LIMIT);
+    return routing.locales.flatMap((locale) =>
+      slugs.map((project) => ({ locale, slug: project.slug })),
+    );
+  } catch {
+    return [];
+  }
+}
 
 export async function generateMetadata({
   params,

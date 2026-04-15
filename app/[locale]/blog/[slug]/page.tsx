@@ -3,13 +3,33 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GiscusComments } from "@/components/blog/GiscusComments";
 import { Link } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
-import { getPostBySlug } from "@/lib/sanity/queries";
+import { getPostBySlug, getPostSlugs } from "@/lib/sanity/queries";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
 };
+
+const PRE_RENDER_DETAIL_LIMIT = 20;
+
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  if (!isSanityConfigured) {
+    return [];
+  }
+
+  try {
+    const slugs = await getPostSlugs(PRE_RENDER_DETAIL_LIMIT);
+    return routing.locales.flatMap((locale) =>
+      slugs.map((post) => ({ locale, slug: post.slug })),
+    );
+  } catch {
+    return [];
+  }
+}
 
 export async function generateMetadata({
   params,
