@@ -56,3 +56,4 @@ npm run preflight
 
 - 若只缺可选项（如 GA、Giscus、Resend），会给出 warning，但不会阻塞通过。
 - 任何必填项缺失、路由返回非 2xx、或构建失败，都会直接返回失败并给出原因。
+- 手工冒烟测试清单见：[`docs/smoke-test-checklist.md`](docs/smoke-test-checklist.md)
