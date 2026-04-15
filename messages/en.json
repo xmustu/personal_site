@@ -34,7 +34,14 @@
   },
   "Contact": {
     "title": "Contact",
-    "stub": "A contact form with email delivery will be added next."
+    "stub": "Send me a message and I will reply by email.",
+    "nameLabel": "Your name",
+    "emailLabel": "Your email",
+    "messageLabel": "Message",
+    "submit": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent successfully.",
+    "error": "Failed to send message. Please try again later."
   },
   "NotFound": {
     "title": "Page not found",

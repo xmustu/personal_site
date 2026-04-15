@@ -11,6 +11,7 @@
     "studio:deploy": "sanity deploy"
   },
   "dependencies": {
+    "@portabletext/react": "^6.0.3",
     "@sanity/client": "^7.21.0",
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^2.1.1",

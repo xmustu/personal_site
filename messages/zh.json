@@ -34,7 +34,14 @@
   },
   "Contact": {
     "title": "联系",
-    "stub": "下一步会添加可发送到你邮箱的联系表单。"
+    "stub": "给我留言后，我会通过邮件回复你。",
+    "nameLabel": "你的名字",
+    "emailLabel": "你的邮箱",
+    "messageLabel": "留言内容",
+    "submit": "发送留言",
+    "sending": "发送中...",
+    "success": "发送成功。",
+    "error": "发送失败，请稍后再试。"
   },
   "NotFound": {
     "title": "页面未找到",

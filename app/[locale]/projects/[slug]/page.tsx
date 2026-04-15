@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
+import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { getProjectBySlug } from "@/lib/sanity/queries";
 
@@ -50,9 +51,11 @@ export default async function ProjectDetailPage({ params }: Props) {
           </a>
         ) : null}
       </div>
-      <p className="text-sm text-neutral-500">
-        Detailed body rendering will be wired next (Portable Text).
-      </p>
+      {project.body?.length ? (
+        <article className="mt-2">
+          <PortableTextRenderer value={project.body} />
+        </article>
+      ) : null}
       <Link className="text-sm text-neutral-600 underline" href="/projects">
         ←
       </Link>

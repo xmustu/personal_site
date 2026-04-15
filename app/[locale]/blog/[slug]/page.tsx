@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
+import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { getPostBySlug } from "@/lib/sanity/queries";
 
@@ -40,9 +41,11 @@ export default async function BlogPostPage({ params }: Props) {
       {post.excerpt ? (
         <p className="text-neutral-700 leading-relaxed">{post.excerpt}</p>
       ) : null}
-      <p className="text-sm text-neutral-500">
-        Body rendering will be wired next (Portable Text).
-      </p>
+      {post.body?.length ? (
+        <article className="mt-2">
+          <PortableTextRenderer value={post.body} />
+        </article>
+      ) : null}
       <Link className="text-sm text-neutral-600 underline" href="/blog">
         ←
       </Link>
