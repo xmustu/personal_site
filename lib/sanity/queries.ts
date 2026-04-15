@@ -27,6 +27,22 @@ export type ProjectDetail = ProjectListItem & {
   demoUrl?: string;
 };
 
+export type HomeContent = {
+  titleZh?: string;
+  titleEn?: string;
+  subtitleZh?: string;
+  subtitleEn?: string;
+  bodyZh?: string;
+  bodyEn?: string;
+};
+
+export type AboutContent = {
+  titleZh?: string;
+  titleEn?: string;
+  bodyZh?: string;
+  bodyEn?: string;
+};
+
 type SlugWithUpdatedAt = {
   slug: string;
   _updatedAt?: string;
@@ -90,6 +106,26 @@ const projectSlugsQuery = groq`
   }
 `;
 
+const homeContentQuery = groq`
+  *[_type == "homeContent"] | order(_updatedAt desc)[0]{
+    titleZh,
+    titleEn,
+    subtitleZh,
+    subtitleEn,
+    bodyZh,
+    bodyEn
+  }
+`;
+
+const aboutContentQuery = groq`
+  *[_type == "aboutContent"] | order(_updatedAt desc)[0]{
+    titleZh,
+    titleEn,
+    bodyZh,
+    bodyEn
+  }
+`;
+
 export async function getPostList(): Promise<PostListItem[]> {
   return sanityClient.fetch<PostListItem[]>(postsQuery);
 }
@@ -116,4 +152,12 @@ export async function getPostSlugs(limit?: number): Promise<SlugWithUpdatedAt[]>
 export async function getProjectSlugs(limit?: number): Promise<SlugWithUpdatedAt[]> {
   const slugs = await sanityClient.fetch<SlugWithUpdatedAt[]>(projectSlugsQuery);
   return typeof limit === "number" ? slugs.slice(0, limit) : slugs;
+}
+
+export async function getHomeContent(): Promise<HomeContent | null> {
+  return sanityClient.fetch<HomeContent | null>(homeContentQuery);
+}
+
+export async function getAboutContent(): Promise<AboutContent | null> {
+  return sanityClient.fetch<AboutContent | null>(aboutContentQuery);
 }
