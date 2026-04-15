@@ -24,7 +24,12 @@ export default async function BlogPage() {
               className="rounded-lg border border-neutral-200 bg-white px-4 py-3"
               key={post._id}
             >
-              <p className="font-medium text-neutral-900">{post.title}</p>
+              <Link
+                className="font-medium text-neutral-900 underline-offset-2 hover:underline"
+                href={`/blog/${post.slug}`}
+              >
+                {post.title}
+              </Link>
               {post.excerpt ? (
                 <p className="mt-1 text-sm text-neutral-600">{post.excerpt}</p>
               ) : null}

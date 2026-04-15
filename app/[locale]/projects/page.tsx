@@ -24,7 +24,12 @@ export default async function ProjectsPage() {
               className="rounded-lg border border-neutral-200 bg-white px-4 py-3"
               key={project._id}
             >
-              <p className="font-medium text-neutral-900">{project.title}</p>
+              <Link
+                className="font-medium text-neutral-900 underline-offset-2 hover:underline"
+                href={`/projects/${project.slug}`}
+              >
+                {project.title}
+              </Link>
               {project.summary ? (
                 <p className="mt-1 text-sm text-neutral-600">{project.summary}</p>
               ) : null}

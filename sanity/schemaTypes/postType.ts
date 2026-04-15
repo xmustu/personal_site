@@ -1,49 +1,65 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
+import {DocumentTextIcon} from '@sanity/icons'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const postType = defineType({
-  name: "post",
-  title: "Post",
-  type: "document",
+  name: 'post',
+  title: 'Post',
+  type: 'document',
+  icon: DocumentTextIcon,
   fields: [
     defineField({
-      name: "title",
-      title: "Title",
-      type: "string",
-      validation: (rule) => rule.required().min(3),
+      name: 'title',
+      type: 'string',
     }),
     defineField({
-      name: "slug",
-      title: "Slug",
-      type: "slug",
-      options: { source: "title", maxLength: 96 },
-      validation: (rule) => rule.required(),
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+      },
     }),
     defineField({
-      name: "publishedAt",
-      title: "Published at",
-      type: "datetime",
-      initialValue: () => new Date().toISOString(),
+      name: 'author',
+      type: 'reference',
+      to: {type: 'author'},
     }),
     defineField({
-      name: "excerpt",
-      title: "Excerpt",
-      type: "text",
-      rows: 3,
+      name: 'mainImage',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+        })
+      ]
     }),
     defineField({
-      name: "body",
-      title: "Body",
-      type: "array",
-      of: [
-        defineArrayMember({ type: "block" }),
-        defineArrayMember({ type: "image", options: { hotspot: true } }),
-      ],
+      name: 'categories',
+      type: 'array',
+      of: [defineArrayMember({type: 'reference', to: {type: 'category'}})],
+    }),
+    defineField({
+      name: 'publishedAt',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'body',
+      type: 'blockContent',
     }),
   ],
   preview: {
     select: {
-      title: "title",
-      subtitle: "publishedAt",
+      title: 'title',
+      author: 'author.name',
+      media: 'mainImage',
+    },
+    prepare(selection) {
+      const {author} = selection
+      return {...selection, subtitle: author && `by ${author}`}
     },
   },
-});
+})
