@@ -30,7 +30,9 @@
     "title": "博客",
     "stub": "这里将展示文章列表（下一步接入 CMS）。",
     "empty": "还没有文章，请先在 Sanity Studio 发布第一篇。",
-    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。"
+    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。",
+    "commentsTitle": "评论",
+    "commentsNotConfigured": "尚未配置 Giscus 评论。"
   },
   "Contact": {
     "title": "联系",

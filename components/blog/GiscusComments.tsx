@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const GISCUS_CONFIG = {
   repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
@@ -20,6 +20,7 @@ function mapGiscusLanguage(locale: string) {
 export function GiscusComments() {
   const containerRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
+  const t = useTranslations("Blog");
   const isConfigured =
     Boolean(GISCUS_CONFIG.repo) &&
     Boolean(GISCUS_CONFIG.repoId) &&
@@ -53,7 +54,7 @@ export function GiscusComments() {
   if (!isConfigured) {
     return (
       <p className="rounded-md border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm text-neutral-600">
-        Giscus is not configured yet.
+        {t("commentsNotConfigured")}
       </p>
     );
   }

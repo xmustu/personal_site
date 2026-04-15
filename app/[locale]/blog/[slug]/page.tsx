@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GiscusComments } from "@/components/blog/GiscusComments";
 import { Link } from "@/i18n/navigation";
@@ -7,8 +8,61 @@ import { isSanityConfigured } from "@/lib/sanity/client";
 import { getPostBySlug } from "@/lib/sanity/queries";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const normalizedSiteUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
+  const localizedPath = locale === "zh" ? `/blog/${slug}` : `/${locale}/blog/${slug}`;
+  const canonicalUrl = `${normalizedSiteUrl}${localizedPath}`;
+
+  if (!isSanityConfigured) {
+    return {
+      title: locale === "zh" ? "博客" : "Blog",
+      description: locale === "zh" ? "技术文章详情页。" : "Blog post detail page.",
+    };
+  }
+
+  const post = await getPostBySlug(slug);
+  if (!post) {
+    return {
+      title: locale === "zh" ? "博客" : "Blog",
+      description: locale === "zh" ? "技术文章详情页。" : "Blog post detail page.",
+    };
+  }
+
+  const description =
+    post.excerpt ??
+    (locale === "zh" ? "技术文章详情页。" : "Blog post detail page.");
+
+  return {
+    title: post.title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        zh: `${normalizedSiteUrl}/blog/${slug}`,
+        en: `${normalizedSiteUrl}/en/blog/${slug}`,
+      },
+    },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description,
+      url: canonicalUrl,
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+    },
+  };
+}
 
 export default async function BlogPostPage({ params }: Props) {
   const t = await getTranslations("Blog");
@@ -48,7 +102,7 @@ export default async function BlogPostPage({ params }: Props) {
         </article>
       ) : null}
       <section className="mt-8 border-t border-neutral-200 pt-6">
-        <h2 className="text-xl font-semibold tracking-tight">Comments</h2>
+        <h2 className="text-xl font-semibold tracking-tight">{t("commentsTitle")}</h2>
         <div className="mt-4">
           <GiscusComments />
         </div>

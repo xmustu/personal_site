@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
@@ -6,8 +7,62 @@ import { isSanityConfigured } from "@/lib/sanity/client";
 import { getProjectBySlug } from "@/lib/sanity/queries";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: Props): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const normalizedSiteUrl = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
+  const localizedPath =
+    locale === "zh" ? `/projects/${slug}` : `/${locale}/projects/${slug}`;
+  const canonicalUrl = `${normalizedSiteUrl}${localizedPath}`;
+
+  if (!isSanityConfigured) {
+    return {
+      title: locale === "zh" ? "项目" : "Projects",
+      description: locale === "zh" ? "项目详情页。" : "Project detail page.",
+    };
+  }
+
+  const project = await getProjectBySlug(slug);
+  if (!project) {
+    return {
+      title: locale === "zh" ? "项目" : "Projects",
+      description: locale === "zh" ? "项目详情页。" : "Project detail page.",
+    };
+  }
+
+  const description =
+    project.summary ??
+    (locale === "zh" ? "项目详情页。" : "Project detail page.");
+
+  return {
+    title: project.title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        zh: `${normalizedSiteUrl}/projects/${slug}`,
+        en: `${normalizedSiteUrl}/en/projects/${slug}`,
+      },
+    },
+    openGraph: {
+      type: "article",
+      title: project.title,
+      description,
+      url: canonicalUrl,
+      locale: locale === "zh" ? "zh_CN" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description,
+    },
+  };
+}
 
 export default async function ProjectDetailPage({ params }: Props) {
   const t = await getTranslations("Projects");

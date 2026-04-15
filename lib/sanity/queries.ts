@@ -27,6 +27,11 @@ export type ProjectDetail = ProjectListItem & {
   demoUrl?: string;
 };
 
+type SlugWithUpdatedAt = {
+  slug: string;
+  _updatedAt?: string;
+};
+
 const postsQuery = groq`
   *[_type == "post"] | order(publishedAt desc) {
     _id,
@@ -71,6 +76,20 @@ const projectBySlugQuery = groq`
   }
 `;
 
+const postSlugsQuery = groq`
+  *[_type == "post" && defined(slug.current)]{
+    "slug": slug.current,
+    _updatedAt
+  }
+`;
+
+const projectSlugsQuery = groq`
+  *[_type == "project" && defined(slug.current)]{
+    "slug": slug.current,
+    _updatedAt
+  }
+`;
+
 export async function getPostList(): Promise<PostListItem[]> {
   return sanityClient.fetch<PostListItem[]>(postsQuery);
 }
@@ -87,4 +106,12 @@ export async function getProjectBySlug(
   slug: string,
 ): Promise<ProjectDetail | null> {
   return sanityClient.fetch<ProjectDetail | null>(projectBySlugQuery, { slug });
+}
+
+export async function getPostSlugs(): Promise<SlugWithUpdatedAt[]> {
+  return sanityClient.fetch<SlugWithUpdatedAt[]>(postSlugsQuery);
+}
+
+export async function getProjectSlugs(): Promise<SlugWithUpdatedAt[]> {
+  return sanityClient.fetch<SlugWithUpdatedAt[]>(projectSlugsQuery);
 }

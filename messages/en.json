@@ -30,7 +30,9 @@
     "title": "Blog",
     "stub": "Posts will be listed here (CMS next).",
     "empty": "No posts yet. Publish your first post in Sanity Studio.",
-    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first."
+    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first.",
+    "commentsTitle": "Comments",
+    "commentsNotConfigured": "Giscus is not configured yet."
   },
   "Contact": {
     "title": "Contact",
