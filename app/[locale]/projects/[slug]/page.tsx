@@ -90,11 +90,13 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   if (!isSanityConfigured) {
     return (
-      <main className="mx-auto flex max-w-2xl flex-col gap-4 px-6 py-16">
-        <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
-        <p className="rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {t("notConfigured")}
-        </p>
+      <main className="site-shell py-16">
+        <section className="site-card flex flex-col gap-4">
+          <h1 className="site-title">{t("title")}</h1>
+          <p className="rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            {t("notConfigured")}
+          </p>
+        </section>
       </main>
     );
   }
@@ -106,34 +108,36 @@ export default async function ProjectDetailPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto flex max-w-2xl flex-col gap-4 px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">{project.title}</h1>
-      {project.summary ? (
-        <p className="text-neutral-700 leading-relaxed">{project.summary}</p>
-      ) : null}
-      {project.stack?.length ? (
-        <p className="text-xs text-neutral-500">{project.stack.join(" / ")}</p>
-      ) : null}
-      <div className="flex gap-4 text-sm text-neutral-700">
-        {project.repoUrl ? (
-          <a className="underline" href={project.repoUrl} rel="noreferrer" target="_blank">
-            GitHub
-          </a>
+    <main className="site-shell py-16">
+      <section className="site-card flex flex-col gap-4">
+        <h1 className="site-title">{project.title}</h1>
+        {project.summary ? (
+          <p className="site-body">{project.summary}</p>
         ) : null}
-        {project.demoUrl ? (
-          <a className="underline" href={project.demoUrl} rel="noreferrer" target="_blank">
-            Demo
-          </a>
+        {project.stack?.length ? (
+          <p className="text-xs text-neutral-500">{project.stack.join(" / ")}</p>
         ) : null}
-      </div>
-      {project.body?.length ? (
-        <article className="mt-2">
-          <PortableTextRenderer value={project.body} />
-        </article>
-      ) : null}
-      <Link className="text-sm text-neutral-600 underline" href="/projects">
-        ←
-      </Link>
+        <div className="flex gap-4 text-sm text-neutral-700">
+          {project.repoUrl ? (
+            <a className="underline hover:text-orange-600" href={project.repoUrl} rel="noreferrer" target="_blank">
+              GitHub
+            </a>
+          ) : null}
+          {project.demoUrl ? (
+            <a className="underline hover:text-orange-600" href={project.demoUrl} rel="noreferrer" target="_blank">
+              Demo
+            </a>
+          ) : null}
+        </div>
+        {project.body?.length ? (
+          <article className="mt-2">
+            <PortableTextRenderer value={project.body} />
+          </article>
+        ) : null}
+        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href="/projects">
+          ←
+        </Link>
+      </section>
     </main>
   );
 }

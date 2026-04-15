@@ -6,13 +6,15 @@ export default async function ContactPage() {
   const t = await getTranslations("Contact");
 
   return (
-    <main className="mx-auto flex max-w-2xl flex-col gap-4 px-6 py-16">
-      <h1 className="text-3xl font-semibold tracking-tight">{t("title")}</h1>
-      <p className="text-neutral-700 leading-relaxed">{t("stub")}</p>
-      <ContactForm />
-      <Link className="text-sm text-neutral-600 underline" href="/">
-        ←
-      </Link>
+    <main className="site-shell py-16">
+      <section className="site-card flex flex-col gap-4">
+        <h1 className="site-title">{t("title")}</h1>
+        <p className="site-body">{t("stub")}</p>
+        <ContactForm />
+        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href="/">
+          ←
+        </Link>
+      </section>
     </main>
   );
 }

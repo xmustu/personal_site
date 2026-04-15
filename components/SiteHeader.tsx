@@ -5,44 +5,47 @@ export async function SiteHeader() {
   const t = await getTranslations("Nav");
 
   return (
-    <header className="border-b border-neutral-200 bg-white/80 backdrop-blur">
-      <div className="mx-auto flex max-w-2xl items-center justify-between gap-6 px-6 py-4">
+    <header className="sticky top-0 z-20 border-b bg-white/80 backdrop-blur">
+      <div
+        className="site-shell flex items-center justify-between gap-6 py-4"
+        style={{ borderColor: "var(--site-line)" }}
+      >
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-          <Link className="text-neutral-900 hover:text-neutral-600" href="/">
+          <Link className="font-medium text-neutral-900 hover:text-orange-600" href="/">
             {t("home")}
           </Link>
           <span className="text-neutral-300">/</span>
           <Link
-            className="text-neutral-600 hover:text-neutral-900"
+            className="text-neutral-600 hover:text-orange-600"
             href="/about"
           >
             {t("about")}
           </Link>
           <Link
-            className="text-neutral-600 hover:text-neutral-900"
+            className="text-neutral-600 hover:text-orange-600"
             href="/projects"
           >
             {t("projects")}
           </Link>
           <Link
-            className="text-neutral-600 hover:text-neutral-900"
+            className="text-neutral-600 hover:text-orange-600"
             href="/blog"
           >
             {t("blog")}
           </Link>
           <Link
-            className="text-neutral-600 hover:text-neutral-900"
+            className="text-neutral-600 hover:text-orange-600"
             href="/contact"
           >
             {t("contact")}
           </Link>
         </nav>
         <div className="flex shrink-0 items-center gap-3 text-sm">
-          <Link className="text-neutral-600 hover:text-neutral-900" href="/" locale="zh">
+          <Link className="text-neutral-600 hover:text-orange-600" href="/" locale="zh">
             中文
           </Link>
           <span className="text-neutral-300">|</span>
-          <Link className="text-neutral-600 hover:text-neutral-900" href="/" locale="en">
+          <Link className="text-neutral-600 hover:text-orange-600" href="/" locale="en">
             EN
           </Link>
         </div>

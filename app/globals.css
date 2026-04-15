@@ -4,6 +4,12 @@
 
 :root {
   color-scheme: light;
+  --site-bg: #fff9f2;
+  --site-card: #ffffff;
+  --site-ink: #1f2937;
+  --site-muted: #6b7280;
+  --site-line: #f1dfc8;
+  --site-accent: #f97316;
 }
 
 html {
@@ -11,5 +17,35 @@ html {
 }
 
 body {
-  @apply bg-white text-neutral-900;
+  background: radial-gradient(
+      circle at 10% 10%,
+      #fff3e8 0%,
+      transparent 30%
+    ),
+    radial-gradient(circle at 90% 0%, #fff7ed 0%, transparent 25%), var(--site-bg);
+  color: var(--site-ink);
+}
+
+.site-shell {
+  @apply mx-auto w-full max-w-3xl px-6;
+}
+
+.site-card {
+  @apply rounded-2xl border px-6 py-6 shadow-sm;
+  background-color: var(--site-card);
+  border-color: var(--site-line);
+}
+
+.site-title {
+  @apply text-3xl font-semibold tracking-tight;
+}
+
+.site-subtitle {
+  @apply text-lg;
+  color: var(--site-muted);
+}
+
+.site-body {
+  @apply leading-relaxed;
+  color: #374151;
 }
