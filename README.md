@@ -57,3 +57,47 @@ npm run preflight
 - 若只缺可选项（如 GA、Giscus、Resend），会给出 warning，但不会阻塞通过。
 - 任何必填项缺失、路由返回非 2xx、或构建失败，都会直接返回失败并给出原因。
 - 手工冒烟测试清单见：[`docs/smoke-test-checklist.md`](docs/smoke-test-checklist.md)
+
+## 一键发布
+
+执行以下命令可一键完成：`lint` → `preflight` → `Vercel deploy`：
+
+```powershell
+npm run release:preview
+npm run release:prod
+```
+
+说明：
+
+- `release:preview` 会发预览环境；`release:prod` 会发生产环境。
+- `npm run release` 默认等同于 `npm run release:prod`。
+- 任意一步失败都会立即停止，不会继续部署。
+- 请先确认已安装并登录 Vercel CLI（`vercel whoami` 可返回账号）。
+
+## 内容更新（不改代码）
+
+日常更新博客、项目、首页和关于页内容，优先使用 Sanity：
+
+```powershell
+npm run studio:dev
+```
+
+然后访问 `http://localhost:3333`，编辑并发布内容即可。  
+多数内容更新无需重新部署代码（页面会读取最新 Sanity 数据）。
+
+## 代码更新与上线流程
+
+若修改了页面样式、组件、接口等代码，推荐流程：
+
+```powershell
+git add .
+git commit -m "your message"
+git push
+npm run release:preview
+npm run release:prod
+```
+
+## 线上地址
+
+- Production: `https://personal-site-iota-navy.vercel.app`
+- 冒烟测试清单：[`docs/smoke-test-checklist.md`](docs/smoke-test-checklist.md)
