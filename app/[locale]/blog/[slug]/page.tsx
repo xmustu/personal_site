@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { GiscusComments } from "@/components/blog/GiscusComments";
 import { Link } from "@/i18n/navigation";
 import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
@@ -46,6 +47,12 @@ export default async function BlogPostPage({ params }: Props) {
           <PortableTextRenderer value={post.body} />
         </article>
       ) : null}
+      <section className="mt-8 border-t border-neutral-200 pt-6">
+        <h2 className="text-xl font-semibold tracking-tight">Comments</h2>
+        <div className="mt-4">
+          <GiscusComments />
+        </div>
+      </section>
       <Link className="text-sm text-neutral-600 underline" href="/blog">
         ←
       </Link>
