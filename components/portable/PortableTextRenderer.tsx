@@ -1,7 +1,7 @@
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 
 type PortableTextRendererProps = {
-  value: unknown[];
+  value: any[];
 };
 
 const components: PortableTextComponents = {

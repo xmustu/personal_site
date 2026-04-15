@@ -1,11 +1,10 @@
 import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
+import { createServer } from "node:net";
 import path from "node:path";
 
 const ROOT_DIR = process.cwd();
 const ENV_LOCAL_PATH = path.join(ROOT_DIR, ".env.local");
-const DEV_PORT = 3100;
-const DEV_BASE_URL = `http://localhost:${DEV_PORT}`;
 const REQUIRED_ENV_KEYS = [
   "NEXT_PUBLIC_SITE_URL",
   "NEXT_PUBLIC_SANITY_PROJECT_ID",
@@ -63,12 +62,14 @@ function parseDotEnv(filePath) {
 
 function createRunner() {
   const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  const toShellCommand = (args) => [npmCommand, ...args].join(" ");
+
   return (args, label) =>
     new Promise((resolve, reject) => {
-      const child = spawn(npmCommand, args, {
+      const child = spawn(toShellCommand(args), [], {
         cwd: ROOT_DIR,
         stdio: "inherit",
-        shell: false,
+        shell: true,
       });
       child.on("error", (error) => reject(new Error(`${label} failed: ${error.message}`)));
       child.on("exit", (code) => {
@@ -108,19 +109,66 @@ async function checkRoutes(baseUrl) {
   return failed;
 }
 
+async function getAvailablePort() {
+  return new Promise((resolve, reject) => {
+    const server = createServer();
+    server.listen(0, "127.0.0.1");
+    server.on("listening", () => {
+      const address = server.address();
+      if (typeof address === "object" && address?.port) {
+        const { port } = address;
+        server.close(() => resolve(port));
+      } else {
+        server.close(() => reject(new Error("Unable to resolve an available port.")));
+      }
+    });
+    server.on("error", reject);
+  });
+}
+
+async function stopDevServer(devServer) {
+  if (!devServer?.pid) {
+    return;
+  }
+
+  if (process.platform === "win32") {
+    await new Promise((resolve) => {
+      const killer = spawn("taskkill", ["/PID", String(devServer.pid), "/T", "/F"], {
+        stdio: "ignore",
+        shell: false,
+      });
+      killer.on("exit", () => resolve());
+      killer.on("error", () => resolve());
+    });
+    return;
+  }
+
+  devServer.kill("SIGTERM");
+}
+
 async function withDevServer(task) {
-  const nextCommand = process.platform === "win32" ? "npx.cmd" : "npx";
-  const devServer = spawn(nextCommand, ["next", "dev", "-p", String(DEV_PORT)], {
+  const npmCommand = process.platform === "win32" ? "npm.cmd" : "npm";
+  const port = await getAvailablePort();
+  const baseUrl = `http://localhost:${port}`;
+  const devServer = spawn(`${npmCommand} run dev -- -p ${port}`, [], {
     cwd: ROOT_DIR,
     stdio: "ignore",
-    shell: false,
+    shell: true,
+  });
+
+  let spawnError = null;
+  devServer.on("error", (error) => {
+    spawnError = error;
   });
 
   try {
-    await waitForDevServer(`${DEV_BASE_URL}/`);
-    return await task();
+    if (spawnError) {
+      throw new Error(`Unable to start dev server: ${spawnError.message}`);
+    }
+    await waitForDevServer(`${baseUrl}/`);
+    return await task(baseUrl);
   } finally {
-    devServer.kill("SIGTERM");
+    await stopDevServer(devServer);
   }
 }
 
@@ -144,8 +192,8 @@ async function main() {
   }
 
   console.log("== Preflight: route check ==");
-  await withDevServer(async () => {
-    const failedRoutes = await checkRoutes(DEV_BASE_URL);
+  await withDevServer(async (baseUrl) => {
+    const failedRoutes = await checkRoutes(baseUrl);
     if (failedRoutes.length > 0) {
       throw new Error(`Route checks failed:\n${failedRoutes.join("\n")}`);
     }
