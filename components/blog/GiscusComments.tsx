@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 const GISCUS_CONFIG = {
-  repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
-  repoId: process.env.NEXT_PUBLIC_GISCUS_REPO_ID,
-  category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
-  categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
+  repo: process.env.NEXT_PUBLIC_GISCUS_REPO?.trim(),
+  repoId: process.env.NEXT_PUBLIC_GISCUS_REPO_ID?.trim(),
+  category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY?.trim(),
+  categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID?.trim(),
 };
 
 function mapGiscusLanguage(locale: string) {
