@@ -1,0 +1,43 @@
+{
+  "Home": {
+    "title": "Personal site",
+    "subtitle": "Portfolio & tech blog (MVP scaffold)",
+    "body": "Next up: Sanity Studio and real page routes."
+  },
+  "Nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "switch_en": "English"
+  },
+  "Locale": {
+    "switch_to_zh": "中文",
+    "switch_to_en": "English"
+  },
+  "About": {
+    "title": "About",
+    "stub": "Bio & resume highlights will live here (CMS next)."
+  },
+  "Projects": {
+    "title": "Projects",
+    "stub": "Project list & case studies will live here (CMS next).",
+    "empty": "No projects yet. Add your first project in Sanity Studio.",
+    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first."
+  },
+  "Blog": {
+    "title": "Blog",
+    "stub": "Posts will be listed here (CMS next).",
+    "empty": "No posts yet. Publish your first post in Sanity Studio.",
+    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first."
+  },
+  "Contact": {
+    "title": "Contact",
+    "stub": "A contact form with email delivery will be added next."
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "You can go back to the home page."
+  }
+}

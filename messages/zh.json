@@ -1,0 +1,43 @@
+{
+  "Home": {
+    "title": "个人网站",
+    "subtitle": "作品集与技术博客（MVP 骨架）",
+    "body": "下一步会接入 Sanity 可视化后台与真实页面路由。"
+  },
+  "Nav": {
+    "home": "首页",
+    "about": "关于我",
+    "projects": "项目",
+    "blog": "博客",
+    "contact": "联系",
+    "switch_en": "English"
+  },
+  "Locale": {
+    "switch_to_zh": "中文",
+    "switch_to_en": "English"
+  },
+  "About": {
+    "title": "关于我",
+    "stub": "这里将展示你的简介与简历要点（下一步接入 CMS）。"
+  },
+  "Projects": {
+    "title": "项目作品",
+    "stub": "这里将展示项目列表与详情（下一步接入 CMS）。",
+    "empty": "还没有项目内容，请先在 Sanity Studio 创建项目。",
+    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。"
+  },
+  "Blog": {
+    "title": "博客",
+    "stub": "这里将展示文章列表（下一步接入 CMS）。",
+    "empty": "还没有文章，请先在 Sanity Studio 发布第一篇。",
+    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。"
+  },
+  "Contact": {
+    "title": "联系",
+    "stub": "下一步会添加可发送到你邮箱的联系表单。"
+  },
+  "NotFound": {
+    "title": "页面未找到",
+    "body": "你可以返回首页继续浏览。"
+  }
+}
