@@ -49,3 +49,48 @@ body {
   @apply leading-relaxed;
   color: #374151;
 }
+
+.site-markdown {
+  color: #374151;
+}
+
+.site-markdown p {
+  @apply leading-8;
+}
+
+.site-markdown p + p {
+  @apply mt-4;
+}
+
+.site-markdown ul {
+  @apply mt-4 list-disc space-y-2 pl-6;
+}
+
+.site-markdown ol {
+  @apply mt-4 list-decimal space-y-2 pl-6;
+}
+
+.site-markdown li {
+  @apply leading-7;
+}
+
+.site-markdown h2 {
+  @apply mt-6 text-2xl font-semibold tracking-tight text-neutral-900;
+}
+
+.site-markdown h3 {
+  @apply mt-5 text-xl font-semibold tracking-tight text-neutral-900;
+}
+
+.site-markdown a {
+  @apply underline underline-offset-2;
+  color: #c2410c;
+}
+
+.site-markdown code {
+  @apply rounded bg-orange-100 px-1.5 py-0.5 text-sm;
+}
+
+.site-markdown pre {
+  @apply mt-4 overflow-auto rounded-xl border border-orange-100 bg-orange-50 p-4;
+}

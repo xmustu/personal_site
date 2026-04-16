@@ -39,6 +39,17 @@ export async function SiteHeader() {
           >
             {t("contact")}
           </Link>
+          <a
+            className="inline-flex items-center gap-1 text-neutral-600 hover:text-orange-600"
+            href="https://github.com/xmustu"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t("github")}
+            <span aria-hidden="true" className="text-xs">
+              ↗
+            </span>
+          </a>
         </nav>
         <div className="flex shrink-0 items-center gap-3 text-sm">
           <Link className="text-neutral-600 hover:text-orange-600" href="/" locale="zh">
