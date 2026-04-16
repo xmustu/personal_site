@@ -10,7 +10,7 @@ function getBaseUrl() {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
   const now = new Date();
-  const routes = ["/", "/about", "/projects", "/blog", "/contact"];
+  const routes = ["/", "/about", "/projects", "/blog", "/workflow", "/contact"];
   const staticEntries = routes.flatMap((route) => {
     const zhPath = route;
     const enPath = route === "/" ? "/en" : `/en${route}`;

@@ -61,7 +61,11 @@
   },
   "Blog": {
     "title": "博客",
-    "stub": "这里将展示文章列表（下一步接入 CMS）。",
+    "listKicker": "写作",
+    "rssSubscribe": "RSS 订阅",
+    "readPost": "阅读全文",
+    "noExcerpt": "暂无摘要 — 在 Studio 填写 excerpt 后列表卡片会更完整。",
+    "stub": "长文与策展成稿。可 RSS 订阅，或在下方浏览全部已发布文章。",
     "empty": "还没有文章，请先在 Sanity Studio 发布第一篇。",
     "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。",
     "commentsTitle": "评论",

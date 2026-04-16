@@ -61,7 +61,11 @@
   },
   "Blog": {
     "title": "Blog",
-    "stub": "Posts will be listed here (CMS next).",
+    "listKicker": "Writing",
+    "rssSubscribe": "RSS feed",
+    "readPost": "Read article",
+    "noExcerpt": "No excerpt yet — add one in Studio for better cards.",
+    "stub": "Long-form notes and curated write-ups. Subscribe via RSS or browse below.",
     "empty": "No posts yet. Publish your first post in Sanity Studio.",
     "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first.",
     "commentsTitle": "Comments",
