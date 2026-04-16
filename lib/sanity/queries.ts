@@ -48,8 +48,11 @@ type SlugWithUpdatedAt = {
   _updatedAt?: string;
 };
 
+/** 公开列表与 RSS：排除 Sanity 草稿文档（_id 位于 drafts 路径下） */
+const publishedPostFilter = `!(_id in path("drafts.**"))`;
+
 const postsQuery = groq`
-  *[_type == "post"] | order(publishedAt desc) {
+  *[_type == "post" && ${publishedPostFilter}] | order(publishedAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -59,7 +62,7 @@ const postsQuery = groq`
 `;
 
 const projectsQuery = groq`
-  *[_type == "project"] | order(_updatedAt desc) {
+  *[_type == "project" && ${publishedPostFilter}] | order(_updatedAt desc) {
     _id,
     title,
     "slug": slug.current,
@@ -69,7 +72,7 @@ const projectsQuery = groq`
 `;
 
 const postBySlugQuery = groq`
-  *[_type == "post" && slug.current == $slug][0] {
+  *[_type == "post" && slug.current == $slug && ${publishedPostFilter}][0] {
     _id,
     title,
     "slug": slug.current,
@@ -80,7 +83,7 @@ const postBySlugQuery = groq`
 `;
 
 const projectBySlugQuery = groq`
-  *[_type == "project" && slug.current == $slug][0] {
+  *[_type == "project" && slug.current == $slug && ${publishedPostFilter}][0] {
     _id,
     title,
     "slug": slug.current,
@@ -93,14 +96,14 @@ const projectBySlugQuery = groq`
 `;
 
 const postSlugsQuery = groq`
-  *[_type == "post" && defined(slug.current)] | order(_updatedAt desc){
+  *[_type == "post" && defined(slug.current) && ${publishedPostFilter}] | order(_updatedAt desc){
     "slug": slug.current,
     _updatedAt
   }
 `;
 
 const projectSlugsQuery = groq`
-  *[_type == "project" && defined(slug.current)] | order(_updatedAt desc){
+  *[_type == "project" && defined(slug.current) && ${publishedPostFilter}] | order(_updatedAt desc){
     "slug": slug.current,
     _updatedAt
   }
@@ -130,8 +133,18 @@ export async function getPostList(): Promise<PostListItem[]> {
   return sanityClient.fetch<PostListItem[]>(postsQuery);
 }
 
+export async function getRecentPosts(limit: number): Promise<PostListItem[]> {
+  const list = await getPostList();
+  return list.slice(0, Math.max(0, limit));
+}
+
 export async function getProjectList(): Promise<ProjectListItem[]> {
   return sanityClient.fetch<ProjectListItem[]>(projectsQuery);
+}
+
+export async function getRecentProjects(limit: number): Promise<ProjectListItem[]> {
+  const list = await getProjectList();
+  return list.slice(0, Math.max(0, limit));
 }
 
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
