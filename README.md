@@ -1,6 +1,11 @@
 # personal-site
 
-个人网站（Next.js + Tailwind + `next-intl`）。当前步骤：本地可运行的 **MVP 骨架**（多语言策略 **A**：壳层中英，正文后续以中文为主）。
+面向 **技术写作 + 策展** 的个人站点模板：**Next.js App Router** + **Tailwind** + **`next-intl`（中英）** + **Sanity（可视化内容）**，并内置 **草稿优先的内容管道**（手动/自动 ingest）与 **上线前预检 / 一键发布** 脚本。
+
+- **项目叙事与开源边界**（为何 fork、与其它模板的差异）：[`docs/PROJECT.md`](docs/PROJECT.md)  
+- **策展与写作工作流**：站内 **`/workflow`** 页面（中英）说明 Sanity、ingest、preflight、release 的配合方式。
+
+多语言策略 **A**：默认中文路由无前缀（`/`），英文带 `/en` 前缀。
 
 ## 环境要求
 
@@ -21,15 +26,8 @@ npm run dev
 
 浏览器打开 `http://localhost:3000`：
 
-- 默认中文路由：`/`、`/about`、`/projects`、`/blog`
-- 英文路由：`/en`、`/en/about` 等同理
-
-## 本步交付
-
-- 国际化路由与顶部导航
-- 首页 + 三个栏目占位页
-
-下一步：接入 **Sanity Studio** 与内容模型（文章/项目/站点信息）。
+- 默认中文：`/`、`/about`、`/projects`、`/blog`、`/workflow`
+- 英文：`/en`、`/en/about` 等；文章订阅：`/blog/rss`、`/en/blog/rss`
 
 ## SEO 预渲染与 404 策略
 
@@ -101,7 +99,9 @@ npm run ingest:manual -- --urls data/manual-urls.txt
 
 - 写入类型固定为 `post`，并使用 `_drafts.*` ID，只生成草稿。
 - 默认生成中文草稿结构（来源、摘要、要点、编辑备注），发布前请在 Sanity Studio 审核。
-- 需要环境变量：`NEXT_PUBLIC_SANITY_PROJECT_ID`、`NEXT_PUBLIC_SANITY_DATASET`、`SANITY_API_WRITE_TOKEN`。
+- 需要环境变量：`NEXT_PUBLIC_SANITY_PROJECT_ID`（或 `SANITY_STUDIO_PROJECT_ID`）、`NEXT_PUBLIC_SANITY_DATASET`（或 `SANITY_STUDIO_DATASET`）、`SANITY_API_WRITE_TOKEN`。
+- 脚本会从项目根目录读取 `.env` / `.env.local` 并注入到 `process.env`（与 `next dev` 不同，纯 Node 默认不会加载它们）。
+- 若正文 URL 返回 **403**（常见：OpenAI 等站点的反爬）：可在 `.env.local` 设置 **`INGEST_JINA_ON_403=1`**，在直连失败时改用 **r.jina.ai** 提取正文（会把目标链接发给第三方；仅在你接受时再开）。也可设置 **`INGEST_USER_AGENT`** 为本机浏览器 UA 再试直连。
 
 ## 自动搜索模式（关键词 + RSS 自动发现 + 定时抓取）
 
