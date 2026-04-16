@@ -1,14 +1,38 @@
 {
   "Home": {
     "title": "个人网站",
-    "subtitle": "作品集与技术博客（MVP 骨架）",
-    "body": "下一步会接入 Sanity 可视化后台与真实页面路由。"
+    "subtitle": "技术写作与策展笔记 —— 以可 fork 的开源工程模板形式交付。",
+    "body": "可发布内容请用 **Sanity Studio**；外部材料用 **ingest 脚本** 只写入 **草稿**，审完再发布。完整闭环见 **工作流** 页面。",
+    "pillWriting": "技术写作",
+    "pillCuration": "策展",
+    "pillStack": "Sanity · Next.js · Vercel",
+    "pillarsKicker": "模板主张",
+    "pillarsTitle": "写作、草稿策展、可重复上线，一条链路",
+    "pillarWriteTitle": "原创文章",
+    "pillarWriteBody": "Sanity Portable Text 管理正文；`next-intl` 负责中英壳层；读者可通过 RSS 订阅更新。",
+    "pillarCurateTitle": "草稿管道",
+    "pillarCurateBody": "手动或自动 ingest 只创建 `_drafts` 下的 post；不经你在 Studio 发布，对外列表与详情不会出现。",
+    "pillarShipTitle": "预检与发布",
+    "pillarShipBody": "`npm run preflight` 校验环境、核心路由与生产构建；`release:*` 串联 lint → 预检 → Vercel。",
+    "ctaWorkflow": "查看工作流",
+    "ctaBlog": "进入博客",
+    "latestKicker": "最新写作",
+    "latestTitle": "近期文章",
+    "latestSeeAll": "全部文章",
+    "latestEmpty": "暂无已发布文章，请在 Sanity Studio 发布第一篇。",
+    "latestNotConfigured": "配置 Sanity 后即可在此展示文章列表。",
+    "projectsKicker": "精选项目",
+    "projectsTitle": "近期项目",
+    "projectsSeeAll": "全部项目",
+    "projectsEmpty": "暂无项目，请在 Sanity Studio 添加案例。",
+    "projectsNotConfigured": "配置 Sanity 后即可在此展示项目列表。"
   },
   "Nav": {
     "home": "首页",
     "about": "关于我",
     "projects": "项目",
     "blog": "博客",
+    "workflow": "工作流",
     "contact": "联系",
     "github": "GitHub",
     "switch_en": "English"
@@ -26,6 +50,14 @@
     "stub": "这里将展示项目列表与详情（下一步接入 CMS）。",
     "empty": "还没有项目内容，请先在 Sanity Studio 创建项目。",
     "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。"
+  },
+  "Workflow": {
+    "metaTitle": "工作流",
+    "metaDescription": "Sanity、草稿抓取、预检与一键发布如何配合。",
+    "kicker": "文档",
+    "title": "技术写作与策展工作流",
+    "subtitle": "Sanity 为可发布内容源；ingest 只进草稿；脚本保证可重复上线。",
+    "backHome": "← 返回首页"
   },
   "Blog": {
     "title": "博客",

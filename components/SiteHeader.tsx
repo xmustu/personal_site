@@ -35,6 +35,12 @@ export async function SiteHeader() {
           </Link>
           <Link
             className="text-neutral-600 hover:text-orange-600"
+            href="/workflow"
+          >
+            {t("workflow")}
+          </Link>
+          <Link
+            className="text-neutral-600 hover:text-orange-600"
             href="/contact"
           >
             {t("contact")}

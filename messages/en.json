@@ -1,14 +1,38 @@
 {
   "Home": {
     "title": "Personal site",
-    "subtitle": "Portfolio & tech blog (MVP scaffold)",
-    "body": "Next up: Sanity Studio and real page routes."
+    "subtitle": "Technical writing and curated notes — shipped as an open-source template.",
+    "body": "Use **Sanity Studio** for publishable pages and posts. Use **ingest scripts** for draft-only curation from RSS or URLs, then review before publishing. See the **Workflow** page for the full loop.",
+    "pillWriting": "Technical writing",
+    "pillCuration": "Curation",
+    "pillStack": "Sanity · Next.js · Vercel",
+    "pillarsKicker": "Opinionated template",
+    "pillarsTitle": "One loop: write, curate drafts, ship with checks",
+    "pillarWriteTitle": "Original posts",
+    "pillarWriteBody": "Portable Text in Sanity, bilingual UI via next-intl, RSS for readers who prefer feeds.",
+    "pillarCurateTitle": "Draft pipeline",
+    "pillarCurateBody": "Manual or auto ingest writes `_drafts` posts only — nothing goes public until you edit and publish in Studio.",
+    "pillarShipTitle": "Preflight & release",
+    "pillarShipBody": "`npm run preflight` validates env, routes, and production build; `release:*` chains lint → preflight → Vercel.",
+    "ctaWorkflow": "Read workflow",
+    "ctaBlog": "Open blog",
+    "latestKicker": "Latest writing",
+    "latestTitle": "Recent posts",
+    "latestSeeAll": "All posts",
+    "latestEmpty": "No published posts yet. Publish from Sanity Studio.",
+    "latestNotConfigured": "Connect Sanity to list posts here.",
+    "projectsKicker": "Selected work",
+    "projectsTitle": "Recent projects",
+    "projectsSeeAll": "All projects",
+    "projectsEmpty": "No projects yet. Add cases in Sanity Studio.",
+    "projectsNotConfigured": "Connect Sanity to list projects here."
   },
   "Nav": {
     "home": "Home",
     "about": "About",
     "projects": "Projects",
     "blog": "Blog",
+    "workflow": "Workflow",
     "contact": "Contact",
     "github": "GitHub",
     "switch_en": "English"
@@ -26,6 +50,14 @@
     "stub": "Project list & case studies will live here (CMS next).",
     "empty": "No projects yet. Add your first project in Sanity Studio.",
     "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first."
+  },
+  "Workflow": {
+    "metaTitle": "Workflow",
+    "metaDescription": "How Sanity, draft ingestion, preflight, and releases fit together.",
+    "kicker": "Docs",
+    "title": "Writing + curation workflow",
+    "subtitle": "Sanity as source of truth, ingest for drafts only, scripts for repeatable deploys.",
+    "backHome": "← Home"
   },
   "Blog": {
     "title": "Blog",
