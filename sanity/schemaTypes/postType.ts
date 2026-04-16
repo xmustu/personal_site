@@ -47,6 +47,18 @@ export const postType = defineType({
       type: 'datetime',
     }),
     defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'sourceUrl',
+      title: 'Source URL',
+      type: 'url',
+      description: 'Original source link for curated content',
+    }),
+    defineField({
       name: 'body',
       type: 'blockContent',
     }),

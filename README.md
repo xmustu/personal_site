@@ -74,6 +74,62 @@ npm run release:prod
 - 任意一步失败都会立即停止，不会继续部署。
 - 请先确认已安装并登录 Vercel CLI（`vercel whoami` 可返回账号）。
 
+## 半自动内容抓取（手动来源）
+
+已提供手动来源抓取脚本：读取 URL 列表，抓取正文并写入 Sanity `post` 草稿（不自动发布）。
+
+1) 准备 URL 文件（例如 `data/manual-urls.txt`）：
+
+```txt
+https://example.com/article-1
+https://example.com/article-2
+```
+
+2) 先试跑（不写入）：
+
+```powershell
+npm run ingest:manual -- --urls data/manual-urls.txt --dry-run
+```
+
+3) 正式写入草稿：
+
+```powershell
+npm run ingest:manual -- --urls data/manual-urls.txt
+```
+
+说明：
+
+- 写入类型固定为 `post`，并使用 `_drafts.*` ID，只生成草稿。
+- 默认生成中文草稿结构（来源、摘要、要点、编辑备注），发布前请在 Sanity Studio 审核。
+- 需要环境变量：`NEXT_PUBLIC_SANITY_PROJECT_ID`、`NEXT_PUBLIC_SANITY_DATASET`、`SANITY_API_WRITE_TOKEN`。
+
+## 自动搜索模式（关键词 + RSS 自动发现 + 定时抓取）
+
+1) 复制并编辑配置文件：
+
+```powershell
+copy data\auto-sources.example.json data\auto-sources.json
+```
+
+2) 一次性运行自动抓取：
+
+```powershell
+npm run ingest:auto -- --config data/auto-sources.json --dry-run
+npm run ingest:auto -- --config data/auto-sources.json
+```
+
+3) 定时抓取（常驻）：
+
+```powershell
+npm run ingest:auto:watch -- --config data/auto-sources.json
+```
+
+说明：
+
+- 自动模式会先根据关键词从 RSS/Atom 源筛选候选 URL，再调用手动抓取脚本写入 `post` 草稿。
+- 只写草稿，不自动发布。
+- 建议优先使用公开 RSS/API 来源，遵守网站条款与 robots 规则。
+
 ## 内容更新（不改代码）
 
 日常更新博客、项目、首页和关于页内容，优先使用 Sanity：
