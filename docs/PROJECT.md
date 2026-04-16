@@ -24,6 +24,7 @@
 - 本地开发与部署：根目录 [`README.md`](../README.md)  
 - 冒烟清单：[`smoke-test-checklist.md`](./smoke-test-checklist.md)  
 - 策展与写作工作流（站内）：`/workflow`（中英路由）  
+- 博客 RSS：`/blog/rss`（中文默认路由）、`/en/blog/rss`  
 - 需你本人拍板的清单：[`decisions-for-owner.md`](./decisions-for-owner.md)
 
 ## English summary

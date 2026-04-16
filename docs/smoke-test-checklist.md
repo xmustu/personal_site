@@ -29,11 +29,15 @@ npm run dev
 - [ ] `/about`
 - [ ] `/projects`
 - [ ] `/blog`
+- [ ] `/blog/rss`（应返回 XML，非 HTML）
+- [ ] `/workflow`
 - [ ] `/contact`
 - [ ] `/en`
 - [ ] `/en/about`
 - [ ] `/en/projects`
 - [ ] `/en/blog`
+- [ ] `/en/blog/rss`
+- [ ] `/en/workflow`
 - [ ] `/en/contact`
 
 Pass condition: all routes return normal pages (no 404/500), language switch and nav links work.
