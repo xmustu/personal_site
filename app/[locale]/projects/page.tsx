@@ -10,10 +10,11 @@ export default async function ProjectsPage() {
 
   return (
     <main className="site-shell py-16">
-      <section className="site-card flex flex-col gap-4">
+      <section className="site-card flex flex-col gap-6">
         <div className="-mx-1 mb-1 flex h-14 justify-center overflow-hidden rounded-xl bg-orange-50/40">
           <HeroDoodle className="w-[min(120%,640px)] max-w-none shrink-0 origin-top scale-[0.38] opacity-45 saturate-75" />
         </div>
+        <p className="site-kicker">Portfolio</p>
         <h1 className="site-title">{t("title")}</h1>
         <p className="site-body">{t("stub")}</p>
         {!isSanityConfigured ? (
@@ -23,10 +24,10 @@ export default async function ProjectsPage() {
         ) : null}
 
         {isSanityConfigured && projects.length > 0 ? (
-          <ul className="mt-2 space-y-3">
+          <ul className="grid gap-4 md:grid-cols-2">
             {projects.map((project) => (
               <li
-                className="rounded-xl border px-4 py-3"
+                className="site-lift rounded-2xl border px-5 py-4 hover:border-orange-200 hover:bg-orange-50/40"
                 key={project._id}
                 style={{ borderColor: "var(--site-line)", backgroundColor: "#fffdf9" }}
               >

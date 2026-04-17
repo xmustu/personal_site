@@ -72,7 +72,9 @@
     "commentsNotConfigured": "Giscus is not configured yet.",
     "tocTitle": "On this page",
     "copyCode": "Copy code",
-    "copied": "Copied"
+    "copied": "Copied",
+    "allTags": "All",
+    "emptyByTag": "No posts found under {tag}."
   },
   "Contact": {
     "title": "Contact",

@@ -7,6 +7,7 @@ export type PostListItem = {
   slug: string;
   publishedAt?: string;
   excerpt?: string;
+  categories?: string[];
 };
 
 export type PostDetail = PostListItem & {
@@ -57,7 +58,8 @@ const postsQuery = groq`
     title,
     "slug": slug.current,
     publishedAt,
-    excerpt
+    excerpt,
+    "categories": categories[]->title
   }
 `;
 

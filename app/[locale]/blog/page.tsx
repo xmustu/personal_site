@@ -8,6 +8,7 @@ import { routing } from "@/i18n/routing";
 
 type Props = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ tag?: string }>;
 };
 
 function formatPostDate(iso: string | undefined, locale: string) {
@@ -23,8 +24,9 @@ function formatPostDate(iso: string | undefined, locale: string) {
   }
 }
 
-export default async function BlogPage({ params }: Props) {
+export default async function BlogPage({ params, searchParams }: Props) {
   const { locale } = await params;
+  const { tag } = await searchParams;
 
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
@@ -35,6 +37,15 @@ export default async function BlogPage({ params }: Props) {
   const t = await getTranslations("Blog");
   const posts = isSanityConfigured ? await getPostList() : [];
   const rssHref = locale === routing.defaultLocale ? "/blog/rss" : `/${locale}/blog/rss`;
+  const activeTag = (tag ?? "").trim();
+  const allTags = [...new Set(posts.flatMap((post) => post.categories ?? []).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b, locale === "zh" ? "zh-CN" : "en-US"),
+  );
+  const filteredPosts =
+    activeTag.length > 0
+      ? posts.filter((post) => (post.categories ?? []).includes(activeTag))
+      : posts;
+  const blogBasePath = locale === routing.defaultLocale ? "/blog" : `/${locale}/blog`;
 
   return (
     <main className="site-shell py-16">
@@ -42,6 +53,7 @@ export default async function BlogPage({ params }: Props) {
         <div className="-mx-1 flex h-14 justify-center overflow-hidden rounded-xl bg-orange-50/40">
           <HeroDoodle className="w-[min(120%,640px)] max-w-none shrink-0 origin-top scale-[0.38] opacity-45 saturate-75" />
         </div>
+        <p className="site-kicker">Writing</p>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-xs font-medium uppercase tracking-wide text-orange-700/90">
@@ -64,12 +76,40 @@ export default async function BlogPage({ params }: Props) {
           </p>
         ) : null}
 
-        {isSanityConfigured && posts.length > 0 ? (
+        {allTags.length > 0 ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              className={`rounded-full border px-3 py-1 text-xs ${activeTag ? "text-neutral-600 hover:text-orange-700" : "border-orange-200 bg-orange-100 text-orange-800"}`}
+              href={blogBasePath}
+              style={{ borderColor: activeTag ? "var(--site-line)" : undefined }}
+            >
+              {t("allTags")}
+            </Link>
+            {allTags.map((item) => (
+              <Link
+                className={`rounded-full border px-3 py-1 text-xs ${
+                  activeTag === item
+                    ? "border-orange-200 bg-orange-100 text-orange-800"
+                    : "text-neutral-600 hover:border-orange-200 hover:text-orange-700"
+                }`}
+                href={`${blogBasePath}?tag=${encodeURIComponent(item)}`}
+                key={item}
+                style={{
+                  borderColor: activeTag === item ? undefined : "var(--site-line)",
+                }}
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
+        ) : null}
+
+        {isSanityConfigured && filteredPosts.length > 0 ? (
           <ul className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
               <li key={post._id}>
                 <Link
-                  className="group flex h-full flex-col rounded-2xl border bg-white/90 p-5 transition hover:border-orange-200 hover:bg-orange-50/50"
+                  className="site-lift group flex h-full flex-col rounded-2xl border bg-white/90 p-5 hover:border-orange-200 hover:bg-orange-50/50"
                   href={`/blog/${post.slug}`}
                   style={{ borderColor: "var(--site-line)" }}
                 >
@@ -90,6 +130,15 @@ export default async function BlogPage({ params }: Props) {
                   ) : (
                     <p className="mt-3 text-sm text-neutral-400">{t("noExcerpt")}</p>
                   )}
+                  {post.categories?.length ? (
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {post.categories.slice(0, 4).map((cat) => (
+                        <span className="rounded-full bg-orange-100/70 px-2 py-0.5 text-[11px] font-medium text-orange-800" key={cat}>
+                          {cat}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                   <span className="mt-4 text-sm font-medium text-orange-700/90 group-hover:underline">
                     {t("readPost")}
                   </span>
@@ -99,8 +148,10 @@ export default async function BlogPage({ params }: Props) {
           </ul>
         ) : null}
 
-        {isSanityConfigured && posts.length === 0 ? (
-          <p className="text-sm text-neutral-600">{t("empty")}</p>
+        {isSanityConfigured && filteredPosts.length === 0 ? (
+          <p className="text-sm text-neutral-600">
+            {activeTag ? t("emptyByTag", { tag: activeTag }) : t("empty")}
+          </p>
         ) : null}
 
         <Link className="text-sm text-neutral-600 underline hover:text-orange-600" href="/">
