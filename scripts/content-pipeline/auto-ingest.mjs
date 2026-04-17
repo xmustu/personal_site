@@ -3,11 +3,14 @@ import os from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import Parser from "rss-parser";
+import { loadProjectEnv } from "./load-env.mjs";
+
+loadProjectEnv();
 
 const ROOT_DIR = process.cwd();
 const DEFAULT_CONFIG = "data/auto-sources.json";
 const parser = new Parser({
-  timeout: 15000,
+  timeout: 30000,
   headers: {
     "User-Agent":
       "Mozilla/5.0 (compatible; personal-site-auto-ingest/1.0; +https://personal-site-iota-navy.vercel.app)",
@@ -146,7 +149,8 @@ async function collectCandidateUrls(config) {
         }
       }
     } catch (error) {
-      console.warn(`[warn] feed parse failed: ${feedUrl} -> ${error.message}`);
+      const detail = error?.message || error?.code || String(error);
+      console.warn(`[warn] feed parse failed: ${feedUrl} -> ${detail}`);
     }
   }
 

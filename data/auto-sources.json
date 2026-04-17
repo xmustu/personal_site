@@ -1,0 +1,21 @@
+{
+  "keywords": [
+    "llm",
+    "agent",
+    "rag",
+    "multimodal",
+    "工业设计",
+    "智能设计"
+  ],
+  "feeds": [
+    "https://openai.com/news/rss.xml",
+    "https://huggingface.co/blog/feed.xml"
+  ],
+  "seedSites": [
+    "https://www.anthropic.com/news",
+    "https://ai.googleblog.com/"
+  ],
+  "maxItemsPerFeed": 20,
+  "maxUrlsPerRun": 15,
+  "intervalMinutes": 180
+}

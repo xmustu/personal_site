@@ -4,8 +4,19 @@
 
 - **项目叙事与开源边界**（为何 fork、与其它模板的差异）：[`docs/PROJECT.md`](docs/PROJECT.md)  
 - **策展与写作工作流**：站内 **`/workflow`** 页面（中英）说明 Sanity、ingest、preflight、release 的配合方式。
+- **已确认的维护决策**：[`docs/decisions-for-owner.md`](docs/decisions-for-owner.md)
 
 多语言策略 **A**：默认中文路由无前缀（`/`），英文带 `/en` 前缀。
+
+## 公开模板说明
+
+- 本仓库定位为 **可公开 fork 的模板**。
+- 许可证：`MIT`，见根目录 [`LICENSE`](LICENSE)。
+- 推荐提供一个公开 Demo 部署，便于他人预览 fork 后效果。
+- 默认不主动收集访客 **PII**。
+  - GA4 仅用于基础访问统计。
+  - 联系表单仅在访客主动提交时发送邮件，不做额外画像或持久化存储。
+  - 内容抓取脚本仅为维护者本地使用；若开启 `INGEST_JINA_ON_403=1`，目标链接会发送至第三方 `r.jina.ai` 做正文提取。
 
 ## 环境要求
 
@@ -101,7 +112,7 @@ npm run ingest:manual -- --urls data/manual-urls.txt
 - 默认生成中文草稿结构（来源、摘要、要点、编辑备注），发布前请在 Sanity Studio 审核。
 - 需要环境变量：`NEXT_PUBLIC_SANITY_PROJECT_ID`（或 `SANITY_STUDIO_PROJECT_ID`）、`NEXT_PUBLIC_SANITY_DATASET`（或 `SANITY_STUDIO_DATASET`）、`SANITY_API_WRITE_TOKEN`。
 - 脚本会从项目根目录读取 `.env` / `.env.local` 并注入到 `process.env`（与 `next dev` 不同，纯 Node 默认不会加载它们）。
-- 若正文 URL 返回 **403**（常见：OpenAI 等站点的反爬）：可在 `.env.local` 设置 **`INGEST_JINA_ON_403=1`**，在直连失败时改用 **r.jina.ai** 提取正文（会把目标链接发给第三方；仅在你接受时再开）。也可设置 **`INGEST_USER_AGENT`** 为本机浏览器 UA 再试直连。
+- 若正文 URL 返回 **403**（常见：OpenAI 等站点的反爬）：推荐在 `.env.local` 设置 **`INGEST_JINA_ON_403=1`**，在直连失败时改用 **r.jina.ai** 提取正文（会把目标链接发给第三方）。也可设置 **`INGEST_USER_AGENT`** 为本机浏览器 UA 再试直连。
 
 ## 自动搜索模式（关键词 + RSS 自动发现 + 定时抓取）
 
@@ -159,3 +170,5 @@ npm run release:prod
 
 - Production: `https://personal-site-iota-navy.vercel.app`
 - 冒烟测试清单：[`docs/smoke-test-checklist.md`](docs/smoke-test-checklist.md)
+
+> 若你后续绑定正式域名，请同步更新 `.env.local` / Vercel 环境变量中的 `NEXT_PUBLIC_SITE_URL`。
