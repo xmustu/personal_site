@@ -86,7 +86,7 @@ export async function generateMetadata({
 
 export default async function ProjectDetailPage({ params }: Props) {
   const t = await getTranslations("Projects");
-  const { slug } = await params;
+  const { locale, slug } = await params;
 
   if (!isSanityConfigured) {
     return (
@@ -107,37 +107,61 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
+  const backPath = locale === "zh" ? "/projects" : `/${locale}/projects`;
+
   return (
-    <main className="site-shell py-16">
-      <section className="site-card flex flex-col gap-4">
-        <h1 className="site-title">{project.title}</h1>
-        {project.summary ? (
-          <p className="site-body">{project.summary}</p>
-        ) : null}
-        {project.stack?.length ? (
-          <p className="text-xs text-neutral-500">{project.stack.join(" / ")}</p>
-        ) : null}
-        <div className="flex gap-4 text-sm text-neutral-700">
-          {project.repoUrl ? (
-            <a className="underline hover:text-orange-600" href={project.repoUrl} rel="noreferrer" target="_blank">
-              GitHub
-            </a>
+    <main className="py-16">
+      <div className="site-detail-shell">
+        <section className="site-card site-detail-main flex flex-col gap-5">
+          <p className="site-kicker">{t("detailKicker")}</p>
+          <h1 className="site-title">{project.title}</h1>
+          {project.summary ? (
+            <div className="rounded-xl border border-orange-100 bg-orange-50/40 px-4 py-3">
+              <p className="site-body">{project.summary}</p>
+            </div>
           ) : null}
-          {project.demoUrl ? (
-            <a className="underline hover:text-orange-600" href={project.demoUrl} rel="noreferrer" target="_blank">
-              Demo
-            </a>
+          {project.stack?.length ? (
+            <div className="flex flex-wrap gap-1.5">
+              {project.stack.map((tag) => (
+                <span
+                  className="rounded-full bg-orange-100/80 px-2 py-0.5 text-[11px] font-medium text-orange-800"
+                  key={tag}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
           ) : null}
-        </div>
-        {project.body?.length ? (
-          <article className="mt-2">
-            <PortableTextRenderer copiedLabel="Copied" copyLabel="Copy code" value={project.body} />
-          </article>
-        ) : null}
-        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href="/projects">
-          ←
-        </Link>
-      </section>
+          {project.body?.length ? (
+            <article className="mt-2">
+              <PortableTextRenderer copiedLabel="Copied" copyLabel="Copy code" value={project.body} />
+            </article>
+          ) : null}
+          <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href={backPath}>
+            ←
+          </Link>
+        </section>
+        <aside className="site-detail-aside">
+          <div className="site-card-soft sticky top-24">
+            <p className="site-kicker">{t("quickLinks")}</p>
+            <div className="mt-3 flex flex-col gap-2 text-sm">
+              {project.repoUrl ? (
+                <a className="underline hover:text-orange-600" href={project.repoUrl} rel="noreferrer" target="_blank">
+                  GitHub
+                </a>
+              ) : null}
+              {project.demoUrl ? (
+                <a className="underline hover:text-orange-600" href={project.demoUrl} rel="noreferrer" target="_blank">
+                  Demo
+                </a>
+              ) : null}
+              {!project.repoUrl && !project.demoUrl ? (
+                <p className="text-neutral-500">{t("linksEmpty")}</p>
+              ) : null}
+            </div>
+          </div>
+        </aside>
+      </div>
     </main>
   );
 }

@@ -49,7 +49,10 @@
     "title": "项目作品",
     "stub": "这里将展示项目列表与详情（下一步接入 CMS）。",
     "empty": "还没有项目内容，请先在 Sanity Studio 创建项目。",
-    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。"
+    "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。",
+    "detailKicker": "案例研究",
+    "quickLinks": "项目链接",
+    "linksEmpty": "暂未提供仓库或在线演示链接。"
   },
   "Workflow": {
     "metaTitle": "工作流",
@@ -74,7 +77,10 @@
     "copyCode": "复制代码",
     "copied": "已复制",
     "allTags": "全部",
-    "emptyByTag": "分类 {tag} 下暂无文章。"
+    "emptyByTag": "分类 {tag} 下暂无文章。",
+    "detailKicker": "文章",
+    "publishedOn": "发布于",
+    "readingMode": "长文阅读模式"
   },
   "Contact": {
     "title": "联系",

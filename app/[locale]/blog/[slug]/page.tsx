@@ -115,54 +115,65 @@ export default async function BlogPostPage({ params }: Props) {
   const blogPath = locale === "zh" ? "/blog" : `/${locale}/blog`;
 
   return (
-    <main className="site-shell py-16">
+    <main className="py-16">
       <ReadingProgressBar />
-      <section className="site-card flex flex-col gap-4">
-        <h1 className="site-title">{post.title}</h1>
-        {post.publishedAt ? (
-          <p className="text-sm text-neutral-500">
-            {new Date(post.publishedAt).toLocaleDateString()}
-          </p>
-        ) : null}
-        {post.excerpt ? (
-          <p className="site-body">{post.excerpt}</p>
-        ) : null}
-        {tocHeadings.length > 0 ? (
-          <aside className="site-toc">
-            <p className="site-toc-title">{t("tocTitle")}</p>
-            <ul className="site-toc-list">
-              {tocHeadings.map((heading) => (
-                <li className={heading.level === 3 ? "site-toc-subitem" : ""} key={heading.id}>
-                  <a className="site-toc-link" href={`#${heading.id}`}>
-                    {heading.text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </aside>
-        ) : null}
-        {post.body?.length ? (
-          <article className="mt-2">
-            <PortableTextRenderer
-              copiedLabel={t("copied")}
-              copyLabel={t("copyCode")}
-              value={post.body}
-            />
-          </article>
-        ) : null}
-        <section
-          className="mt-4 rounded-xl border p-4"
-          style={{ borderColor: "var(--site-line)", backgroundColor: "#fffdf9" }}
-        >
-          <h2 className="text-xl font-semibold tracking-tight">{t("commentsTitle")}</h2>
-          <div className="mt-4">
-            <GiscusComments />
+      <div className="site-detail-shell">
+        <section className="site-card site-detail-main flex flex-col gap-5">
+          <p className="site-kicker">{t("detailKicker")}</p>
+          <h1 className="site-title">{post.title}</h1>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+            {post.publishedAt ? (
+              <time dateTime={post.publishedAt}>
+                {t("publishedOn")} {new Date(post.publishedAt).toLocaleDateString()}
+              </time>
+            ) : null}
+            <span className="text-neutral-300">•</span>
+            <span>{t("readingMode")}</span>
           </div>
+          {post.excerpt ? (
+            <div className="rounded-xl border border-orange-100 bg-orange-50/40 px-4 py-3">
+              <p className="site-body">{post.excerpt}</p>
+            </div>
+          ) : null}
+          {post.body?.length ? (
+            <article className="mt-2">
+              <PortableTextRenderer
+                copiedLabel={t("copied")}
+                copyLabel={t("copyCode")}
+                value={post.body}
+              />
+            </article>
+          ) : null}
+          <section
+            className="mt-4 rounded-xl border p-4"
+            style={{ borderColor: "var(--site-line)", backgroundColor: "#fffdf9" }}
+          >
+            <h2 className="text-xl font-semibold tracking-tight">{t("commentsTitle")}</h2>
+            <div className="mt-4">
+              <GiscusComments />
+            </div>
+          </section>
+          <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href={blogPath}>
+            ←
+          </Link>
         </section>
-        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href={blogPath}>
-          ←
-        </Link>
-      </section>
+        <aside className="site-detail-aside">
+          {tocHeadings.length > 0 ? (
+            <div className="site-toc sticky top-24">
+              <p className="site-toc-title">{t("tocTitle")}</p>
+              <ul className="site-toc-list">
+                {tocHeadings.map((heading) => (
+                  <li className={heading.level === 3 ? "site-toc-subitem" : ""} key={heading.id}>
+                    <a className="site-toc-link" href={`#${heading.id}`}>
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </aside>
+      </div>
     </main>
   );
 }

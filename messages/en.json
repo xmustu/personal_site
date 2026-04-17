@@ -49,7 +49,10 @@
     "title": "Projects",
     "stub": "Project list & case studies will live here (CMS next).",
     "empty": "No projects yet. Add your first project in Sanity Studio.",
-    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first."
+    "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first.",
+    "detailKicker": "Case study",
+    "quickLinks": "Project links",
+    "linksEmpty": "No repository or live demo links yet."
   },
   "Workflow": {
     "metaTitle": "Workflow",
@@ -74,7 +77,10 @@
     "copyCode": "Copy code",
     "copied": "Copied",
     "allTags": "All",
-    "emptyByTag": "No posts found under {tag}."
+    "emptyByTag": "No posts found under {tag}.",
+    "detailKicker": "Article",
+    "publishedOn": "Published",
+    "readingMode": "Long-form reading mode"
   },
   "Contact": {
     "title": "Contact",
