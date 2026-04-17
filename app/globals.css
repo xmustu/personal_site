@@ -94,3 +94,48 @@ body {
 .site-markdown pre {
   @apply mt-4 overflow-auto rounded-xl border border-orange-100 bg-orange-50 p-4;
 }
+
+.site-reading-progress-wrap {
+  @apply fixed left-0 right-0 top-0 z-30 h-1 bg-transparent;
+}
+
+.site-reading-progress {
+  @apply h-full bg-orange-500 transition-[width] duration-150;
+}
+
+.site-toc {
+  @apply mt-2 rounded-xl border bg-orange-50/40 p-4;
+  border-color: var(--site-line);
+}
+
+.site-toc-title {
+  @apply text-sm font-semibold text-neutral-900;
+}
+
+.site-toc-list {
+  @apply mt-2 space-y-1;
+}
+
+.site-toc-subitem {
+  @apply pl-4;
+}
+
+.site-toc-link {
+  @apply text-sm text-neutral-700 hover:text-orange-700 hover:underline;
+}
+
+.site-code-block {
+  @apply relative;
+}
+
+.site-code-copy {
+  @apply absolute right-2 top-2 rounded-md border border-orange-200 bg-white/90 px-2.5 py-1 text-xs text-neutral-700 hover:border-orange-300 hover:text-orange-700;
+}
+
+.site-code-lang {
+  @apply absolute left-3 top-2 text-[11px] uppercase tracking-wide text-neutral-500;
+}
+
+.site-code-block pre {
+  @apply pt-10;
+}

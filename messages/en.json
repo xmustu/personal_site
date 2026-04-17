@@ -69,7 +69,10 @@
     "empty": "No posts yet. Publish your first post in Sanity Studio.",
     "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first.",
     "commentsTitle": "Comments",
-    "commentsNotConfigured": "Giscus is not configured yet."
+    "commentsNotConfigured": "Giscus is not configured yet.",
+    "tocTitle": "On this page",
+    "copyCode": "Copy code",
+    "copied": "Copied"
   },
   "Contact": {
     "title": "Contact",

@@ -69,7 +69,10 @@
     "empty": "还没有文章，请先在 Sanity Studio 发布第一篇。",
     "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。",
     "commentsTitle": "评论",
-    "commentsNotConfigured": "尚未配置 Giscus 评论。"
+    "commentsNotConfigured": "尚未配置 Giscus 评论。",
+    "tocTitle": "目录",
+    "copyCode": "复制代码",
+    "copied": "已复制"
   },
   "Contact": {
     "title": "联系",

@@ -2,9 +2,13 @@ import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GiscusComments } from "@/components/blog/GiscusComments";
+import { ReadingProgressBar } from "@/components/blog/ReadingProgressBar";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
+import {
+  extractTocHeadings,
+  PortableTextRenderer,
+} from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { getPostBySlug, getPostSlugs } from "@/lib/sanity/queries";
 
@@ -86,7 +90,7 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: Props) {
   const t = await getTranslations("Blog");
-  const { slug } = await params;
+  const { locale, slug } = await params;
 
   if (!isSanityConfigured) {
     return (
@@ -107,8 +111,12 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  const tocHeadings = post.body?.length ? extractTocHeadings(post.body) : [];
+  const blogPath = locale === "zh" ? "/blog" : `/${locale}/blog`;
+
   return (
     <main className="site-shell py-16">
+      <ReadingProgressBar />
       <section className="site-card flex flex-col gap-4">
         <h1 className="site-title">{post.title}</h1>
         {post.publishedAt ? (
@@ -119,9 +127,27 @@ export default async function BlogPostPage({ params }: Props) {
         {post.excerpt ? (
           <p className="site-body">{post.excerpt}</p>
         ) : null}
+        {tocHeadings.length > 0 ? (
+          <aside className="site-toc">
+            <p className="site-toc-title">{t("tocTitle")}</p>
+            <ul className="site-toc-list">
+              {tocHeadings.map((heading) => (
+                <li className={heading.level === 3 ? "site-toc-subitem" : ""} key={heading.id}>
+                  <a className="site-toc-link" href={`#${heading.id}`}>
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        ) : null}
         {post.body?.length ? (
           <article className="mt-2">
-            <PortableTextRenderer value={post.body} />
+            <PortableTextRenderer
+              copiedLabel={t("copied")}
+              copyLabel={t("copyCode")}
+              value={post.body}
+            />
           </article>
         ) : null}
         <section
@@ -133,7 +159,7 @@ export default async function BlogPostPage({ params }: Props) {
             <GiscusComments />
           </div>
         </section>
-        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href="/blog">
+        <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href={blogPath}>
           ←
         </Link>
       </section>

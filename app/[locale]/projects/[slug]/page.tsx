@@ -131,7 +131,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         </div>
         {project.body?.length ? (
           <article className="mt-2">
-            <PortableTextRenderer value={project.body} />
+            <PortableTextRenderer copiedLabel="Copied" copyLabel="Copy code" value={project.body} />
           </article>
         ) : null}
         <Link className="mt-2 text-sm text-neutral-600 underline hover:text-orange-600" href="/projects">
