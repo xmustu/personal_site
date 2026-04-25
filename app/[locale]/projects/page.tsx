@@ -1,12 +1,15 @@
 import { getTranslations } from "next-intl/server";
 import { HeroDoodle } from "@/components/illustration/HeroDoodle";
+import { ProjectCard } from "@/components/projects/ProjectCard";
 import { Link } from "@/i18n/navigation";
+import { enrichProjectsForCards } from "@/lib/projects/enrichProjectCards";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { getProjectList } from "@/lib/sanity/queries";
 
 export default async function ProjectsPage() {
   const t = await getTranslations("Projects");
-  const projects = isSanityConfigured ? await getProjectList() : [];
+  const raw = isSanityConfigured ? await getProjectList() : [];
+  const projects = raw.length ? await enrichProjectsForCards(raw) : [];
 
   return (
     <main className="site-shell py-16">
@@ -26,25 +29,8 @@ export default async function ProjectsPage() {
         {isSanityConfigured && projects.length > 0 ? (
           <ul className="grid gap-4 md:grid-cols-2">
             {projects.map((project) => (
-              <li
-                className="site-lift rounded-2xl border px-5 py-4 hover:border-orange-200 hover:bg-orange-50/40"
-                key={project._id}
-                style={{ borderColor: "var(--site-line)", backgroundColor: "#fffdf9" }}
-              >
-                <Link
-                  className="font-medium text-neutral-900 underline-offset-2 hover:text-orange-600 hover:underline"
-                  href={`/projects/${project.slug}`}
-                >
-                  {project.title}
-                </Link>
-                {project.summary ? (
-                  <p className="mt-1 text-sm text-neutral-600">{project.summary}</p>
-                ) : null}
-                {project.stack?.length ? (
-                  <p className="mt-2 text-xs text-neutral-500">
-                    {project.stack.join(" / ")}
-                  </p>
-                ) : null}
+              <li key={project._id}>
+                <ProjectCard project={project} variant="poster" />
               </li>
             ))}
           </ul>

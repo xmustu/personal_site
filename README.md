@@ -68,7 +68,8 @@ npm run build
 
 ## Demo
 
-- Production: `https://personal-site-iota-navy.vercel.app`
+- Live site: [https://jiangyouchaodan.dpdns.org](https://jiangyouchaodan.dpdns.org)
+- Production (Vercel): `https://personal-site-iota-navy.vercel.app`
 - Workflow page: `/workflow`
 - RSS: `/blog/rss`
 
@@ -118,7 +119,7 @@ npm run ingest:auto:watch -- --config data/auto-sources.json
 - [x] 博客/项目详情页 SEO + sitemap/robots + RSS
 - [x] Preflight / Release 自动化
 - [x] 草稿优先内容管道（manual + auto ingest）
-- [ ] 博客正文增强：TOC / 阅读进度条 / 代码复制
+- [x] 博客正文增强：TOC / 阅读进度条 / 代码复制
 - [ ] Nextra 文档子站（monorepo 双部署）
 - [ ] 全文搜索（Algolia / Orama）
 

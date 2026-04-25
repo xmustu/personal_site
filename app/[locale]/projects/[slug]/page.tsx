@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { PortableTextRenderer } from "@/components/portable/PortableTextRenderer";
 import { isSanityConfigured } from "@/lib/sanity/client";
+import { resolveProjectPresentation } from "@/lib/projects/resolveProjectPresentation";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/sanity/queries";
 
 type Props = {
@@ -55,12 +56,14 @@ export async function generateMetadata({
     };
   }
 
-  const description =
-    project.summary ??
-    (locale === "zh" ? "项目详情页。" : "Project detail page.");
+  const emptyDesc = locale === "zh" ? "项目详情页。" : "Project detail page.";
+  const { title: resolvedTitle, description } = await resolveProjectPresentation(
+    project,
+    emptyDesc,
+  );
 
   return {
-    title: project.title,
+    title: resolvedTitle,
     description,
     alternates: {
       canonical: canonicalUrl,
@@ -71,14 +74,14 @@ export async function generateMetadata({
     },
     openGraph: {
       type: "article",
-      title: project.title,
+      title: resolvedTitle,
       description,
       url: canonicalUrl,
       locale: locale === "zh" ? "zh_CN" : "en_US",
     },
     twitter: {
       card: "summary_large_image",
-      title: project.title,
+      title: resolvedTitle,
       description,
     },
   };
@@ -107,6 +110,13 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
+  const emptyDesc = locale === "zh" ? "项目详情页。" : "Project detail page.";
+  const { title: headline, description: lead } = await resolveProjectPresentation(
+    project,
+    emptyDesc,
+  );
+  const summaryBlock = project.summary?.trim() || (lead !== emptyDesc ? lead : null);
+
   const backPath = locale === "zh" ? "/projects" : `/${locale}/projects`;
 
   return (
@@ -114,10 +124,10 @@ export default async function ProjectDetailPage({ params }: Props) {
       <div className="site-detail-shell">
         <section className="site-card site-detail-main flex flex-col gap-5">
           <p className="site-kicker">{t("detailKicker")}</p>
-          <h1 className="site-title">{project.title}</h1>
-          {project.summary ? (
+          <h1 className="site-title">{headline}</h1>
+          {summaryBlock ? (
             <div className="rounded-xl border border-orange-100 bg-orange-50/40 px-4 py-3">
-              <p className="site-body">{project.summary}</p>
+              <p className="site-body">{summaryBlock}</p>
             </div>
           ) : null}
           {project.stack?.length ? (

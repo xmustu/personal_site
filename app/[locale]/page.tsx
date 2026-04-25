@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { MarkdownContent } from "@/components/content/MarkdownContent";
 import { HeroDoodle } from "@/components/illustration/HeroDoodle";
 import { Link } from "@/i18n/navigation";
+import { ProjectCard } from "@/components/projects/ProjectCard";
+import { enrichProjectsForCards } from "@/lib/projects/enrichProjectCards";
 import { isSanityConfigured } from "@/lib/sanity/client";
 import { getHomeContent, getRecentPosts, getRecentProjects } from "@/lib/sanity/queries";
 import { routing } from "@/i18n/routing";
@@ -43,7 +45,9 @@ export default async function HomePage({ params }: Props) {
   const bodyContent = body || t("body");
 
   const posts = isSanityConfigured ? await getRecentPosts(5) : [];
-  const projects = isSanityConfigured ? await getRecentProjects(4) : [];
+  const rawProjects = isSanityConfigured ? await getRecentProjects(4) : [];
+  const projects =
+    rawProjects.length > 0 ? await enrichProjectsForCards(rawProjects) : [];
 
   return (
     <main className="site-shell space-y-10 py-16">
@@ -185,30 +189,7 @@ export default async function HomePage({ params }: Props) {
             <ul className="mt-5 flex flex-1 flex-col gap-3">
               {projects.map((project) => (
                 <li key={project._id}>
-                  <Link
-                    className="group block rounded-xl border bg-white/80 px-4 py-3 transition hover:border-orange-200 hover:bg-orange-50/40"
-                    href={`/projects/${project.slug}`}
-                    style={{ borderColor: "var(--site-line)" }}
-                  >
-                    <span className="font-medium text-neutral-900 group-hover:text-orange-700">
-                      {project.title}
-                    </span>
-                    {project.summary ? (
-                      <p className="mt-1 line-clamp-2 text-sm text-neutral-600">{project.summary}</p>
-                    ) : null}
-                    {project.stack && project.stack.length > 0 ? (
-                      <div className="mt-2 flex flex-wrap gap-1.5">
-                        {project.stack.slice(0, 5).map((tag) => (
-                          <span
-                            className="rounded-full bg-orange-100/80 px-2 py-0.5 text-[11px] font-medium text-orange-800"
-                            key={tag}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
-                  </Link>
+                  <ProjectCard project={project} variant="compact" />
                 </li>
               ))}
             </ul>
@@ -231,29 +212,12 @@ export default async function HomePage({ params }: Props) {
         {projects.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-3">
             {projects.slice(0, 3).map((project, index) => (
-              <Link
-                className={`site-lift rounded-2xl border p-4 ${index === 0 ? "md:col-span-2" : ""}`}
-                href={`/projects/${project.slug}`}
+              <ProjectCard
+                featuredWide={index === 0}
                 key={project._id}
-                style={{ borderColor: "var(--site-line)", backgroundColor: "#fffdf9" }}
-              >
-                <p className="text-base font-semibold text-neutral-900">{project.title}</p>
-                {project.summary ? (
-                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600">{project.summary}</p>
-                ) : null}
-                {project.stack?.length ? (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {project.stack.slice(0, 6).map((tag) => (
-                      <span
-                        className="rounded-full bg-orange-100/80 px-2 py-0.5 text-[11px] font-medium text-orange-800"
-                        key={tag}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                ) : null}
-              </Link>
+                project={project}
+                variant="poster"
+              />
             ))}
           </div>
         ) : (

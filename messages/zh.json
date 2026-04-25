@@ -47,7 +47,7 @@
   },
   "Projects": {
     "title": "项目作品",
-    "stub": "这里将展示项目列表与详情（下一步接入 CMS）。",
+    "stub": "在 Sanity 填写 GitHub 仓库链接即可生成可点击卡片（标题与摘要可由 GitHub 自动补全）；可选上传封面图或填写封面 URL，否则使用 GitHub 官方预览图。仍需要 Slug 作为站内详情页路径。",
     "empty": "还没有项目内容，请先在 Sanity Studio 创建项目。",
     "notConfigured": "尚未配置 Sanity，请先设置 NEXT_PUBLIC_SANITY_PROJECT_ID。",
     "detailKicker": "案例研究",
@@ -84,7 +84,14 @@
   },
   "Contact": {
     "title": "联系",
+    "detailKicker": "联系",
     "stub": "给我留言后，我会通过邮件回复你。",
+    "asideTitle": "站内入口",
+    "linkWorkflow": "工作流说明",
+    "linkBlog": "博客",
+    "linkProjects": "项目",
+    "linkGithub": "GitHub 主页",
+    "asideNote": "表单走本站 API；垃圾留言防护含蜜罐字段。更复杂的需求请直接说明在正文里。",
     "nameLabel": "你的名字",
     "emailLabel": "你的邮箱",
     "messageLabel": "留言内容",

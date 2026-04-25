@@ -47,7 +47,7 @@
   },
   "Projects": {
     "title": "Projects",
-    "stub": "Project list & case studies will live here (CMS next).",
+    "stub": "Add a GitHub repo URL in Sanity to render a clickable card (title and summary can be filled automatically from GitHub). Optionally set a cover image or cover URL; otherwise the template uses GitHub’s Open Graph preview. You still need a slug for the on-site detail page.",
     "empty": "No projects yet. Add your first project in Sanity Studio.",
     "notConfigured": "Sanity is not configured yet. Please set NEXT_PUBLIC_SANITY_PROJECT_ID first.",
     "detailKicker": "Case study",
@@ -84,7 +84,14 @@
   },
   "Contact": {
     "title": "Contact",
+    "detailKicker": "Contact",
     "stub": "Send me a message and I will reply by email.",
+    "asideTitle": "On this site",
+    "linkWorkflow": "Workflow",
+    "linkBlog": "Blog",
+    "linkProjects": "Projects",
+    "linkGithub": "GitHub profile",
+    "asideNote": "This form posts to this site’s API; a honeypot field helps block spam. Put context in the message body.",
     "nameLabel": "Your name",
     "emailLabel": "Your email",
     "messageLabel": "Message",

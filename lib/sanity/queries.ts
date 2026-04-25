@@ -20,6 +20,9 @@ export type ProjectListItem = {
   slug: string;
   summary?: string;
   stack?: string[];
+  repoUrl?: string;
+  cardCoverUrl?: string;
+  cardImageAssetUrl?: string;
 };
 
 export type ProjectDetail = ProjectListItem & {
@@ -69,7 +72,10 @@ const projectsQuery = groq`
     title,
     "slug": slug.current,
     summary,
-    stack
+    stack,
+    repoUrl,
+    cardCoverUrl,
+    "cardImageAssetUrl": cardImage.asset->url
   }
 `;
 

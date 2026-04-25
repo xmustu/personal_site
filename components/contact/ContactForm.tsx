@@ -40,14 +40,18 @@ export function ContactForm() {
     }
   }
 
+  const fieldClass =
+    "rounded-xl border bg-white px-3 py-2 text-sm outline-none ring-orange-200/80 focus:ring-2";
+
   return (
-    <form className="mt-2 flex flex-col gap-4" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       <label className="flex flex-col gap-2 text-sm text-neutral-700">
         {t("nameLabel")}
         <input
-          className="rounded-md border border-neutral-300 px-3 py-2"
+          className={fieldClass}
           name="name"
           required
+          style={{ borderColor: "var(--site-line)" }}
           type="text"
         />
       </label>
@@ -55,9 +59,10 @@ export function ContactForm() {
       <label className="flex flex-col gap-2 text-sm text-neutral-700">
         {t("emailLabel")}
         <input
-          className="rounded-md border border-neutral-300 px-3 py-2"
+          className={fieldClass}
           name="email"
           required
+          style={{ borderColor: "var(--site-line)" }}
           type="email"
         />
       </label>
@@ -65,16 +70,17 @@ export function ContactForm() {
       <label className="flex flex-col gap-2 text-sm text-neutral-700">
         {t("messageLabel")}
         <textarea
-          className="min-h-32 rounded-md border border-neutral-300 px-3 py-2"
+          className={`min-h-32 ${fieldClass}`}
           name="message"
           required
+          style={{ borderColor: "var(--site-line)" }}
         />
       </label>
 
       <input autoComplete="off" className="hidden" name="website" tabIndex={-1} />
 
       <button
-        className="inline-flex w-fit rounded-md bg-neutral-900 px-4 py-2 text-sm text-white hover:bg-neutral-700 disabled:opacity-60"
+        className="inline-flex w-fit rounded-xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-60"
         disabled={state === "submitting"}
         type="submit"
       >
