@@ -7,6 +7,7 @@ import {authorType} from './authorType'
 import {projectType} from './projectType'
 import {homeContentType} from './homeContentType'
 import {aboutContentType} from './aboutContentType'
+import {aboutTimelineItemType} from './aboutTimelineItemType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -16,6 +17,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorType,
     projectType,
     homeContentType,
+    aboutTimelineItemType,
     aboutContentType,
   ],
 }

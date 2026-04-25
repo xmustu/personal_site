@@ -40,11 +40,19 @@ export type HomeContent = {
   bodyEn?: string;
 };
 
+export type AboutTimelineItem = {
+  year?: string;
+  title?: string;
+  description?: string;
+};
+
 export type AboutContent = {
   titleZh?: string;
   titleEn?: string;
   bodyZh?: string;
   bodyEn?: string;
+  timelineZh?: AboutTimelineItem[];
+  timelineEn?: AboutTimelineItem[];
 };
 
 type SlugWithUpdatedAt = {
@@ -133,7 +141,9 @@ const aboutContentQuery = groq`
     titleZh,
     titleEn,
     bodyZh,
-    bodyEn
+    bodyEn,
+    "timelineZh": timelineZh[]{ year, title, description },
+    "timelineEn": timelineEn[]{ year, title, description }
   }
 `;
 

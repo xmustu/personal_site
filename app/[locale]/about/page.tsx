@@ -2,12 +2,39 @@ import { getTranslations } from "next-intl/server";
 import { MarkdownContent } from "@/components/content/MarkdownContent";
 import { HeroDoodle } from "@/components/illustration/HeroDoodle";
 import { Link } from "@/i18n/navigation";
+import {
+  ABOUT_TIMELINE_FALLBACK_EN,
+  ABOUT_TIMELINE_FALLBACK_ZH,
+} from "@/lib/content/aboutTimelineFallback";
 import { isSanityConfigured } from "@/lib/sanity/client";
-import { getAboutContent } from "@/lib/sanity/queries";
+import { getAboutContent, type AboutTimelineItem } from "@/lib/sanity/queries";
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
+
+type TimelineRow = { year: string; title: string; desc: string };
+
+function buildAboutTimeline(
+  rows: AboutTimelineItem[] | null | undefined,
+  fallback: readonly { year: string; title: string; description: string }[],
+): TimelineRow[] {
+  const fromCms = rows
+    ?.map((r) => ({
+      year: (r.year ?? "").trim(),
+      title: (r.title ?? "").trim(),
+      desc: (r.description ?? "").trim(),
+    }))
+    .filter((r) => r.year || r.title);
+  if (fromCms && fromCms.length > 0) {
+    return fromCms;
+  }
+  return fallback.map((r) => ({
+    year: r.year,
+    title: r.title,
+    desc: r.description,
+  }));
+}
 
 export default async function AboutPage({ params }: Props) {
   const { locale } = await params;
@@ -18,17 +45,10 @@ export default async function AboutPage({ params }: Props) {
   const title = isZh ? aboutContent?.titleZh : aboutContent?.titleEn;
   const body = isZh ? aboutContent?.bodyZh : aboutContent?.bodyEn;
   const bodyContent = body || t("stub");
-  const timeline = isZh
-    ? [
-        { year: "2026", title: "个人站与内容管道上线", desc: "建立技术写作 + 策展的持续发布闭环。" },
-        { year: "2025", title: "聚焦 LLM 应用工程", desc: "从 Demo 转向可部署、可维护的 AI 产品化实践。" },
-        { year: "2024", title: "工业设计智能化探索", desc: "将设计流程与自动化工具链结合，验证落地价值。" },
-      ]
-    : [
-        { year: "2026", title: "Website and content pipeline launched", desc: "A repeatable loop for technical writing and curation." },
-        { year: "2025", title: "Focused on LLM app engineering", desc: "From demos to deployable and maintainable AI products." },
-        { year: "2024", title: "Intelligent industrial design exploration", desc: "Connected design workflow with automation tooling." },
-      ];
+  const timeline = buildAboutTimeline(
+    isZh ? aboutContent?.timelineZh : aboutContent?.timelineEn,
+    isZh ? ABOUT_TIMELINE_FALLBACK_ZH : ABOUT_TIMELINE_FALLBACK_EN,
+  );
 
   return (
     <main className="site-shell py-16">
@@ -58,8 +78,11 @@ export default async function AboutPage({ params }: Props) {
         <section className="rounded-2xl border border-orange-100 bg-white/80 p-4">
           <p className="site-kicker">{isZh ? "时间线" : "Timeline"}</p>
           <ul className="mt-4 space-y-3">
-            {timeline.map((item) => (
-              <li className="site-lift rounded-xl border border-orange-100/80 bg-orange-50/30 px-4 py-3" key={item.year + item.title}>
+            {timeline.map((item, index) => (
+              <li
+                className="site-lift rounded-xl border border-orange-100/80 bg-orange-50/30 px-4 py-3"
+                key={`${item.year}-${item.title}-${index}`}
+              >
                 <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">{item.year}</p>
                 <p className="mt-1 text-sm font-semibold text-neutral-900">{item.title}</p>
                 <p className="mt-1 text-sm leading-relaxed text-neutral-600">{item.desc}</p>
